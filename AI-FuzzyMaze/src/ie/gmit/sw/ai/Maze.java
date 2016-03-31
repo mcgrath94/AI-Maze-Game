@@ -8,10 +8,11 @@ public class Maze {
 		buildMaze();
 		
 		int featureNumber = (int)((rows * cols) * 0.01);
-		addFeature('W', 'X', featureNumber);
-		addFeature('?', 'X', featureNumber);
-		addFeature('B', 'X', featureNumber);
-		addFeature('H', 'X', featureNumber);
+		addFeature('W', 'X', featureNumber); // W is a weapon/sword
+		addFeature('?', 'X', featureNumber); // ? is help/prisoner
+		addFeature('B', 'X', featureNumber); // B is a bomb
+		addFeature('H', 'X', featureNumber); // H is a H-bomb
+		addFeature('S', 'X', featureNumber); // S is a Spider
 	}
 	
 	private void init(){
