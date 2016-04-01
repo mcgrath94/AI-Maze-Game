@@ -25,7 +25,7 @@ public class GameRunner implements KeyListener{
     	view.setMinimumSize(d);
     	view.setMaximumSize(d);
     	
-    	JFrame f = new JFrame("G00299578 - AI Project)");
+    	JFrame f = new JFrame("G00299578 - AI Project");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.addKeyListener(this);
         f.getContentPane().setLayout(new FlowLayout());
@@ -57,13 +57,16 @@ public class GameRunner implements KeyListener{
 		view.setCurrentCol(currentCol);
 	}
 
+	
     public void keyPressed(KeyEvent e) {
     	//if right is pressed - move right if valid move
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
         	if (isValidMove(currentRow, currentCol + 1)) 
         		currentCol++; // up a column 
         	else if(currentRow == goalRow && (currentCol+1) == goalCol)
-        		System.out.println("Game won!");;
+        		System.out.println("Game won!");
+        	else if(getWeapon(currentRow, currentCol+1))
+            	System.out.println("Got weapon!");;
         }
         //if left is pressed - move left if valid move
         else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentCol > 0) {
@@ -96,8 +99,11 @@ public class GameRunner implements KeyListener{
         //calls update view to the position moved to
         updateView();       
     }
+    
     public void keyReleased(KeyEvent e) {} //Ignore
 	public void keyTyped(KeyEvent e) {} //Ignore
+	
+	
 
     //checks if the move is valid - this is called when a key is pressed
 	private boolean isValidMove(int r, int c){
@@ -110,6 +116,18 @@ public class GameRunner implements KeyListener{
 			return false; //Can't move
 		}
 	}
+	
+	private boolean getWeapon(int r, int c){
+		// if position to move to is empty(' '), and less than maze size, isValidMove returns true
+		if (r <= model.length - 1 && c <= model[r].length - 1 && model[r][c] == 'W'){
+			model[currentRow][currentCol] = 'P';
+			model[r][c] = 'X';
+			return true;
+		}else{
+			return false; 
+		}
+	}
+
 	
 	public static void main(String[] args) throws Exception{
 		new GameRunner();
