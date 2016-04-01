@@ -62,21 +62,29 @@ public class GameRunner implements KeyListener{
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
         	if (isValidMove(currentRow, currentCol + 1)) 
         		currentCol++; // up a column 
+        	else if(currentRow == goalRow && (currentCol+1) == goalCol)
+        		System.out.println("Game won!");;
         }
         //if left is pressed - move left if valid move
         else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentCol > 0) {
         	if (isValidMove(currentRow, currentCol - 1)) 
         		currentCol--; // down a column 
+        	else if(currentRow == goalRow && (currentCol-1) == goalCol)
+        		System.out.println("Game won!");;
         }
         //if up is pressed - move up if valid move
         else if (e.getKeyCode() == KeyEvent.VK_UP && currentRow > 0) {
         	if (isValidMove(currentRow - 1, currentCol)) 
         		currentRow--; // down a row
+        	else if((currentRow-1) == goalRow && currentCol == goalCol)
+        		System.out.println("Game won!");;
         }
         //if down is pressed - move down if valid move
         else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentRow < MAZE_DIMENSION - 1) {
         	if (isValidMove(currentRow + 1, currentCol)) 
         		currentRow++; //up a row
+        	else if((currentRow+1) == goalRow && currentCol == goalCol)
+        		System.out.println("Game won!");;
         }
         //if z is pressed, zooms out
         else if (e.getKeyCode() == KeyEvent.VK_Z){
