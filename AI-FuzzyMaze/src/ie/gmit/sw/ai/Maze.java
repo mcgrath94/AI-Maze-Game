@@ -1,9 +1,9 @@
 package ie.gmit.sw.ai;
 
 public class Maze {
-	private char[][] maze;
+	private Node[][] maze;
 	public Maze(int rows, int cols){
-		maze = new char[rows][cols];
+		maze = new Node[rows][cols];
 		init();
 		buildMaze();
 		
@@ -18,7 +18,8 @@ public class Maze {
 	private void init(){
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
-				maze[row][col] = 'X';
+				maze[row][col] = new Node(row, col);
+				maze[row][col].setFeature('X');
 			}
 		}
 	}
@@ -29,8 +30,8 @@ public class Maze {
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 			
-			if (maze[row][col] == replace){
-				maze[row][col] = feature;
+			if (maze[row][col].getFeature() == replace){
+				maze[row][col].setFeature(feature);
 				counter++;
 			}
 		}
@@ -42,17 +43,17 @@ public class Maze {
 			for (int col = 0; col < maze[row].length - 1; col++){
 				int num = (int) (Math.random() * 10);
 				if (num >= 5 && col + 1 < maze[row].length - 1){
-					maze[row][col + 1] = ' ';
+					maze[row][col + 1].setFeature(' ');
 					continue;
 				}
 				if (row + 1 < maze.length){ //Check south
-					maze[row + 1][col] = ' ';
+					maze[row + 1][col].setFeature(' ');
 				}				
 			}
 		}	
 	}
 	
-	public char[][] getMaze(){
+	public Node[][] getMaze(){
 		return this.maze;
 	}
 	

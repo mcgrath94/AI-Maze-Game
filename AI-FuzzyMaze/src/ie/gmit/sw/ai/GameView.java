@@ -5,13 +5,14 @@ import java.awt.event.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import javax.swing.*;
+
 public class GameView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_VIEW_SIZE = 800;	
 	private static final int IMAGE_COUNT = 12;
 	private int cellspan = 5;	
 	private int cellpadding = 2;
-	private char[][] maze;
+	private Node[][] maze;
 	private BufferedImage[] images;
 	private int enemy_state = 5;
 	private int player_state = 7;
@@ -21,7 +22,7 @@ public class GameView extends JPanel implements ActionListener{
 	private boolean zoomOut = false;
 	private int imageIndex = -1;
 	
-	public GameView(char[][] maze) throws Exception{
+	public GameView(Node[][] maze) throws Exception{
 		init();
 		this.maze = maze;
 		setBackground(Color.LIGHT_GRAY);
@@ -66,14 +67,22 @@ public class GameView extends JPanel implements ActionListener{
         		char ch = 'X';
        		
         		if (zoomOut){
-        			ch = maze[row][col];
+        			ch = maze[row][col].getFeature();
         			if (row == currentRow && col == currentCol){
         				g2.setColor(Color.YELLOW);
         				g2.fillRect(x1, y1, size, size);
         				continue;
         			}
-        		}else{
-        			ch = maze[currentRow - cellpadding + row][currentCol - cellpadding + col];
+        			
+        			if (maze[row][col].getFeature() == 'S'){
+        				g2.setColor(Color.RED);
+        				g2.fillRect(x1, y1, size, size);
+        				continue;
+        			}
+        			
+        		}
+        		else{
+        			ch = maze[currentRow - cellpadding + row][currentCol - cellpadding + col].getFeature();
         		}
         		
         		
