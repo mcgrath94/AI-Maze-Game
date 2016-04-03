@@ -12,7 +12,7 @@ public class Maze {
 		addFeature('?', 'X', featureNumber); // ? is help/prisoner
 		addFeature('B', 'X', featureNumber); // B is a bomb
 		addFeature('H', 'X', featureNumber); // H is a H-bomb
-		addFeature('S', 'X', featureNumber); // S is a Spider
+		//addFeature('S', 'X', featureNumber); // S is a Spider
 	}
 	
 	private void init(){

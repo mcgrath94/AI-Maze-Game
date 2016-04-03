@@ -1,0 +1,44 @@
+FUNCTION_BLOCK Project
+
+	VAR_INPUT
+		weapon : REAL; 
+		opponent : REAL; 
+	END_VAR
+	
+	VAR_OUTPUT
+	   win : REAL; 
+	END_VAR
+	
+	FUZZIFY weapon 
+		TERM none := (0, 1) (30, 1) (45, 0);
+		TERM good := (50, 0)  (70, 1) (100, 1); 
+	END_FUZZIFY 
+	
+	FUZZIFY enemy 
+		TERM small := (1, 1)  (15, 0);
+		TERM large := (6, 0)  (20, 1);
+	END_FUZZIFY
+	
+	DEFUZZIFY win 
+		TERM low := (0, 1)  (45, 0);
+		TERM normal := trian 20.0 50.0 80.0;
+		TERM high := (55, 0)  (100, 1);
+		METHOD : COG;
+		DEFAULT := 0; 
+	END_DEFUZZIFY
+	
+	RULEBLOCK No1 
+	   AND : MIN;
+	   ACT : MIN;
+	   ACCU : MAX;
+	   RULE 1 : IF enemy IS small THEN win IS high;
+	   RULE 2 : IF enemy IS large OR weapon IS none THEN win IS low; 
+	   RULE 3 : IF enemy IS large AND weapon IS good THEN win IS normal;
+	   RULE 4 : IF weapon IS good THEN win IS high;
+	   RULE 5 : IF weapon IS none AND enemy IS large THEN win is low;
+	END_RULEBLOCK
+	
+	
+
+
+END_FUNCTION_BLOCK
