@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import ie.gmit.sw.ai.traversers.*;
+import ie.gmit.sw.gameover.GameOver;
 
 public class GameRunner implements KeyListener{
 	private static final int MAZE_DIMENSION = 40;
@@ -16,6 +17,8 @@ public class GameRunner implements KeyListener{
 	private int goalCol;
 	private int enemyRow;
 	private int enemyCol;
+	
+	public static boolean won = false;
 
 	
 	public GameRunner() throws Exception{
@@ -58,6 +61,7 @@ public class GameRunner implements KeyListener{
     	goalCol = (int) (MAZE_DIMENSION * Math.random());
     	model[goalRow][goalCol].setFeature('G');
     	model[goalRow][goalCol].setGoalNode(true);
+    	//model[goalRow][goalCol].isGoalNode();
 	}
 	
 	private void placeEnemy(){   	
@@ -139,10 +143,10 @@ public class GameRunner implements KeyListener{
 			return false;
 		}
 		
-		//if weapon
+		//if bomb
 		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getFeature() == 'B'){
 			model[currentRow][currentCol].setFeature('P');
-			model[r][c].setFeature('X');
+			model[r][c].setFeature('X');			
 			gotBomb();
 			return false;
 		}
@@ -155,6 +159,7 @@ public class GameRunner implements KeyListener{
 	//when got weapon
 	private void gotWeapon() {
 		System.out.println("Test weapon");
+		GameView.hasWeapon = true;
 		
 	}
 	
@@ -162,14 +167,17 @@ public class GameRunner implements KeyListener{
 	private void gotBomb() {
 		System.out.println("Test bomb");
 		
-		Traversator t = new DepthLimitedDFSTraversator(model.length / 2);
-		t.traverse(model, model[0][0], view);	
+		
+		
+		//Traversator t = new DepthLimitedDFSTraversator(model.length / 2);
+		//t.traverse(model, model[0][0], view);	
 	}
 
 	//when goal reached
 	private void gameWon() {
 		System.out.println("Test won");
-		
+		won = true;
+		new GameOver();
 	}
 
 	

@@ -10,8 +10,8 @@ FUNCTION_BLOCK Project
 	END_VAR
 	
 	FUZZIFY weapon 
-		TERM none := (0, 1) (30, 1) (45, 0);
-		TERM good := (50, 0)  (70, 1) (100, 1); 
+		TERM none := (0, 1) (10, 0);
+		TERM good := (10, 0)  (20, 1); 
 	END_FUZZIFY 
 	
 	FUZZIFY enemy 
@@ -31,14 +31,17 @@ FUNCTION_BLOCK Project
 	   AND : MIN;
 	   ACT : MIN;
 	   ACCU : MAX;
-	   RULE 1 : IF enemy IS small THEN win IS high;
-	   RULE 2 : IF enemy IS large OR weapon IS none THEN win IS low; 
-	   RULE 3 : IF enemy IS large AND weapon IS good THEN win IS normal;
-	   RULE 4 : IF weapon IS good THEN win IS high;
-	   RULE 5 : IF weapon IS none AND enemy IS large THEN win is low;
+	   
+	   //win is high
+	   RULE 1 : IF enemy IS small OR weapon IS good THEN win IS high;
+	   
+	   //win is normal
+	   RULE 2 : IF enemy IS large AND weapon IS good THEN win IS normal;
+	   
+	   //win is low	   
+	   RULE 3 : IF enemy IS large AND weapon IS none THEN win IS low;
+	   
 	END_RULEBLOCK
-	
-	
 
 
 END_FUNCTION_BLOCK

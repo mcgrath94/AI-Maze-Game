@@ -22,6 +22,8 @@ public class GameView extends JPanel implements ActionListener{
 	private boolean zoomOut = false;
 	private int imageIndex = -1;
 	
+	public static boolean hasWeapon = false;
+	
 	public GameView(Node[][] maze) throws Exception{
 		init();
 		this.maze = maze;
@@ -84,8 +86,7 @@ public class GameView extends JPanel implements ActionListener{
         		else{
         			ch = maze[currentRow - cellpadding + row][currentCol - cellpadding + col].getFeature();
         		}
-        		
-        		
+        				
         		if (ch == 'X'){        			
         			imageIndex = 0;;
         		}
@@ -128,21 +129,21 @@ public class GameView extends JPanel implements ActionListener{
 	public void toggleZoom(){
 		zoomOut = !zoomOut;		
 	}
-
-	/*public void actionPerformed(ActionEvent e) {	
-		if (enemy_state < 0 || enemy_state == 5){
-			enemy_state = 6;
-		}else{
-			enemy_state = 5;
-		}
-		this.repaint();
-	}*/
 	
-	public void actionPerformed(ActionEvent e) {	
-		if (player_state < 0 || player_state == 7){
+	public void actionPerformed(ActionEvent e) {
+		//when player has weapon
+		if ((player_state == 7 || player_state == 8 || player_state == 10) && hasWeapon == true){
+			player_state = 9;
+		}
+		else if (player_state == 9 && hasWeapon == true){
+			player_state = 10;
+		}
+		
+		//when player has no weapon
+		else if ((player_state < 0 || player_state == 7) && hasWeapon == false){
 			player_state = 8;
 		}
-		else{
+		else if((player_state == 8) && hasWeapon == false){
 			player_state = 7;
 		}
 		this.repaint();
