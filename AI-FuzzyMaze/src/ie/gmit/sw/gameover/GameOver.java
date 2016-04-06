@@ -1,7 +1,6 @@
 package ie.gmit.sw.gameover;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -38,27 +37,9 @@ public class GameOver extends JFrame{
 				}
 			}
 		});
-		panel.add(p, BorderLayout.WEST);
-	
-		JButton e = new JButton("Exit");
-		e.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == e){
-					dispose();
-					System.exit(0);
-				}
-			}
-		});
-		panel.add(e, BorderLayout.EAST);
-		
-		getContentPane().add(panel, BorderLayout.SOUTH);
-
-		setSize(500, 500);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+		panel.add(p, BorderLayout.CENTER);
 	}
+	
 	
 	@Override
 	public void paint(Graphics g) {

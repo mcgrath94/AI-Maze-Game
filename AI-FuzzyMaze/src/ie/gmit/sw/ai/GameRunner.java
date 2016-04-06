@@ -1,11 +1,13 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.fuzzy.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 import ie.gmit.sw.ai.traversers.*;
 import ie.gmit.sw.gameover.GameOver;
+import ie.gmit.sw.ai.*;
 
 public class GameRunner implements KeyListener{
 	private static final int MAZE_DIMENSION = 40;
@@ -18,13 +20,21 @@ public class GameRunner implements KeyListener{
 	private int enemyRow;
 	private int enemyCol;
 	
+	private int MAX_LIFE = 10;
+	
+	public static int weaponValue = 0;
+	public static int enemyValue = 5;
+	
 	public static boolean won = false;
+	
+	Player p = new Player();
 
 	
 	public GameRunner() throws Exception{
 		Maze m = new Maze(MAZE_DIMENSION, MAZE_DIMENSION);
 		model = m.getMaze();
     	view = new GameView(model);
+    	view.add(p);
     	
     	placePlayer();
     	placeGoal();
@@ -51,7 +61,8 @@ public class GameRunner implements KeyListener{
 		//places player at a random row and col in maze
     	currentRow = (int) (MAZE_DIMENSION * Math.random());
     	currentCol = (int) (MAZE_DIMENSION * Math.random());
-    	model[currentRow][currentCol].setFeature('P');
+    	p.setPlayerNode(model[currentRow][currentCol]);
+    
     	updateView(); 		
 	}
 	
@@ -66,15 +77,19 @@ public class GameRunner implements KeyListener{
 	
 	private void placeEnemy(){   	
 		//places player at a random row and col in maze
-    	enemyRow = (int) (MAZE_DIMENSION * Math.random());
-    	enemyCol = (int) (MAZE_DIMENSION * Math.random());
-    	model[enemyRow][enemyCol].setFeature('S');
+		for(int i = 0; i < 5; i++){
+			enemyRow = (int) (MAZE_DIMENSION * Math.random());
+			enemyCol = (int) (MAZE_DIMENSION * Math.random());
+			model[enemyRow][enemyCol].setFeature('S');
+		}
 	}
 	
 	private void updateView(){
 		//updates view so player is always centre
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
+		p.setPlayerNode(model[currentRow][currentCol]);
+		
 	}
 
 	
@@ -147,7 +162,25 @@ public class GameRunner implements KeyListener{
 		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getFeature() == 'B'){
 			model[currentRow][currentCol].setFeature('P');
 			model[r][c].setFeature('X');			
-			gotBomb();
+			//gotBomb();
+			
+			DFSBomb dfsbomb = new DFSBomb(1);
+			dfsbomb.traverse(model, model[r][c]);
+			return false;
+		}
+		
+		//if enemy
+		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getFeature() == 'S'){
+			new Fighting();
+			model[currentRow][currentCol].setFeature(' ');
+			if(MAX_LIFE > 0){
+				model[r][c].setFeature('P');
+			}
+			else{
+				model[r][c].setFeature('S');
+				new GameOver();
+			}
+	
 			return false;
 		}
 		
@@ -160,17 +193,14 @@ public class GameRunner implements KeyListener{
 	private void gotWeapon() {
 		System.out.println("Test weapon");
 		GameView.hasWeapon = true;
+		weaponValue += 1;
 		
 	}
 	
 	//when got normal bomb
 	private void gotBomb() {
 		System.out.println("Test bomb");
-		
-		
-		
-		//Traversator t = new DepthLimitedDFSTraversator(model.length / 2);
-		//t.traverse(model, model[0][0], view);	
+			
 	}
 
 	//when goal reached
@@ -179,6 +209,8 @@ public class GameRunner implements KeyListener{
 		won = true;
 		new GameOver();
 	}
+	
+	
 
 	
 	public static void main(String[] args) throws Exception{

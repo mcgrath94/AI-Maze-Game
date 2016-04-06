@@ -1,6 +1,8 @@
 package ie.gmit.sw.ai;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Node {
 	private static final int MAX_EXITS = 4;
@@ -16,6 +18,7 @@ public class Node {
 	private int col = -1;
 	private int distance;
 	private char feature;
+	private Enemy enemy;
 	
 	public Node(int row, int col) {
 		this.row = row;
@@ -137,6 +140,25 @@ public class Node {
 		}else{
 			return "W ";
 		}
+	}
+	
+	public ArrayList<Node> dfsNodes(Node[][] maze)
+	{
+		ArrayList<Node> dfs = new ArrayList<Node>();
+		
+		dfs.add(maze[row - 1][col - 1]); 
+		dfs.add(maze[row][col - 1]); 
+		dfs.add(maze[row + 1][col - 1]);
+		
+		dfs.add(maze[row - 1][col]);
+		dfs.add(maze[row][col]);
+		dfs.add(maze[row + 1][col]);
+		
+		dfs.add(maze[row - 1][col + 1]);
+		dfs.add(maze[row][col + 1]);
+		dfs.add(maze[row + 1][col + 1]);
+		
+		return dfs;
 	}
 
 }

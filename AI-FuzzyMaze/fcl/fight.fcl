@@ -6,12 +6,12 @@ FUNCTION_BLOCK Project
 	END_VAR
 	
 	VAR_OUTPUT
-	   win : REAL; 
+	   result : REAL; 
 	END_VAR
 	
 	FUZZIFY weapon 
-		TERM none := (0, 1) (10, 0);
-		TERM good := (10, 0)  (20, 1); 
+		TERM none := (0, 1) (1, 0);
+		TERM good := (1, 0)  (2, 1); 
 	END_FUZZIFY 
 	
 	FUZZIFY enemy 
@@ -19,9 +19,9 @@ FUNCTION_BLOCK Project
 		TERM large := (6, 0)  (20, 1);
 	END_FUZZIFY
 	
-	DEFUZZIFY win 
+	DEFUZZIFY result 
 		TERM low := (0, 1)  (45, 0);
-		TERM normal := trian 20.0 50.0 80.0;
+		TERM normal := (20, 0) (50, 0) (80, 0);
 		TERM high := (55, 0)  (100, 1);
 		METHOD : COG;
 		DEFAULT := 0; 
@@ -33,13 +33,13 @@ FUNCTION_BLOCK Project
 	   ACCU : MAX;
 	   
 	   //win is high
-	   RULE 1 : IF enemy IS small OR weapon IS good THEN win IS high;
+	   RULE 1 : IF enemy IS small OR weapon IS good THEN result IS high;
 	   
 	   //win is normal
-	   RULE 2 : IF enemy IS large AND weapon IS good THEN win IS normal;
+	   RULE 2 : IF enemy IS large AND weapon IS good THEN result IS normal;
 	   
 	   //win is low	   
-	   RULE 3 : IF enemy IS large AND weapon IS none THEN win IS low;
+	   RULE 3 : IF enemy IS large AND weapon IS none THEN result IS low;
 	   
 	END_RULEBLOCK
 

@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import javax.swing.*;
+import ie.gmit.sw.ai.traversers.*;
 
 public class GameView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -21,6 +22,7 @@ public class GameView extends JPanel implements ActionListener{
 	private int currentCol;
 	private boolean zoomOut = false;
 	private int imageIndex = -1;
+	private Player player;
 	
 	public static boolean hasWeapon = false;
 	
@@ -51,6 +53,12 @@ public class GameView extends JPanel implements ActionListener{
 		}else{
 			currentCol = col;
 		}
+	}
+	
+	public void add(Player p) {
+		
+		this.player = p;
+		
 	}
 
 	public void paintComponent(Graphics g) {
@@ -164,4 +172,6 @@ public class GameView extends JPanel implements ActionListener{
 		images[10] = ImageIO.read(new java.io.File("resources/char2sword.png"));
 		images[11] = ImageIO.read(new java.io.File("resources/exit.png"));
 	}
+
+
 }
